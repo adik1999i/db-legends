@@ -43,7 +43,7 @@ export default function Home() {
       {/* Hero Section */}
       <div className="relative h-96 overflow-hidden">
         <img
-          src="/images/banner-new.png"
+          src="/images/banner-new.jpg"
           alt="DB Legends Hero"
           className="w-full h-full object-cover"
         />

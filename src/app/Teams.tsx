@@ -2,22 +2,26 @@
 import React from 'react';
 import { Sword, Shield, Star } from 'lucide-react';
 
+
 const Teams = () => {
   const teams = [
     {
       name: 'Fusion Warriors',
       description: 'Top-tier fusion characters',
       members: [
-        { name: 'Vegito', attack: '1.5M', defense: '1.2M', imageSrc: '/vegito.webp' },
-        { name: 'Gogeta', attack: '1.7M', defense: '1.4M', imageSrc: '/gogeta.webp' },
+        { name: 'Lf Vegito Blue', attack: '1.5M', defense: '1.2M', imageSrc: '/vegito.webp' },
+        { name: 'Lf SSJ3 Gotenks', attack: '1.7M', defense: '1.4M', imageSrc: '/ssj3-gotenks.webp' },
+        { name: 'Leader Slot Ultra Majin Vegeta', attack: '1.7M', defense: '1.4M', imageSrc: '/ul-majin.webp' },
+
       ],
     },
     {
-      name: 'Saiyan Saga',
-      description: 'Classic Saiyan warriors',
+      name: 'Saiyan',
+      description: 'Classic Saiyan',
       members: [
-        { name: 'SSJ Goku', attack: '1.8M', defense: '1.3M', imageSrc: '/ssj2.webp' },
-        { name: 'Vegeta', attack: '1.6M', defense: '1.1M', imageSrc: '/vegeta.webp' },
+        { name: 'Ultra Majin Vegeta', attack: '1.8M', defense: '1.3M', imageSrc: '/ul-majin.webp' },
+        { name: 'Lf Vegito Blue', attack: '1.6M', defense: '1.1M', imageSrc: '/vegito.webp' },
+        { name: 'Lf Ssj2 Goku', attack: '1.6M', defense: '1.1M', imageSrc: '/ssj3.webp' },
       ],
     },
   ];
@@ -66,7 +70,9 @@ const Teams = () => {
           </div>
         </div>
       ))}
+      
     </div>
+    
   );
 };
 

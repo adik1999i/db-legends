@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Search, Star, Sword, Shield, Trophy, Users, BookOpen } from 'lucide-react';
+import { Search, Sword, Shield, Trophy, Users, BookOpen } from 'lucide-react';
 import Teams from './Teams';
 
 interface FeaturedCardProps {

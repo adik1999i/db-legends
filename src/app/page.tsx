@@ -2,19 +2,26 @@
 
 import React, { useState } from 'react';
 import { Search, Star, Sword, Shield, Trophy, Users, BookOpen } from 'lucide-react';
+import Teams from './Teams'; 
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('characters');
 
-  const FeaturedCard = ({ title, description, stats }: {
-    title: string;
-    description: string;
-    stats?: Record<string, string>;
+  const FeaturedCard = ({ 
+    title, 
+    description, 
+    imageSrc, 
+    stats 
+  }: { 
+    title: string; 
+    description: string; 
+    imageSrc: string; 
+    stats?: Record<string, string>; 
   }) => (
     <div className="relative group overflow-hidden rounded-lg">
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
       <img
-        src="/api/placeholder/400/300"
+        src={imageSrc}
         alt={title}
         className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
       />
@@ -27,7 +34,7 @@ export default function Home() {
               <div key={key} className="bg-black/40 rounded p-2 backdrop-blur-sm">
                 <div className="flex items-center justify-center gap-1">
                   {key === 'attack' && <Sword className="w-4 h-4 text-red-400" />}
-                  {key === 'defense' && <Shield className="w-4 h-4 text-red-400" />}
+                  {key === 'defense' && <Shield className="w-4 h-4 text-blue-400" />}
                   <span className="text-white text-sm">{value}</span>
                 </div>
               </div>
@@ -37,6 +44,7 @@ export default function Home() {
       </div>
     </div>
   );
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-900 via-black-900 to-gray-900">
@@ -82,18 +90,21 @@ export default function Home() {
         {/* Featured Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           <FeaturedCard
-            title="Ultra Instinct Goku"
+            imageSrc='/ssj3.webp'
+            title="SSJ2 Goku"
             description="Latest character release"
-            stats={{
-              attack: "98",
-              defense: "85"
-            }}
+            // stats={{
+            //   attack: "98",
+            //   defense: "85"
+            // }}
           />
           <FeaturedCard
+            imageSrc='/vegito.webp'
             title="Top Meta Teams"
             description="Current PvP favorites"
           />
           <FeaturedCard
+          imageSrc='/pvp.png'
             title="PvP Guide"
             description="Master the basics"
           />
@@ -173,8 +184,9 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            ))}
+            ))}  
           </div>
+          {activeTab === 'teams' && <Teams />}
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ export default function NotFound() {
         </h1>
         
         <p className="text-gray-300 mb-8">
-          This content is currently under development. We're working hard to bring you the best Dragon Ball Legends experience!
+          This content is currently under development. We&apos;re working hard to bring you the best Dragon Ball Legends experience!
         </p>
         
         <div className="space-y-4">

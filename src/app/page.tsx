@@ -1,100 +1,48 @@
-'use client'
+'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Search, Sword, Shield, Trophy, Users, BookOpen } from 'lucide-react';
-import Teams from './Teams';
-
-interface FeaturedCardProps {
-  title: string;
-  description: string;
-  imageSrc: string;
-  stats?: {
-    attack?: string;
-    defense?: string;
-    [key: string]: string | undefined;
-  };
-}
-
-interface Character {
-  id: string;
-  name: string;
-  element: string;
-  tier: string;
-  imageSrc: string;
-  attack: string;
-  defense: string;
-}
+import FeaturedCard from '../components/FeaturedCard';
+import CharacterList from '../components/CharacterList';
+import Teams from '../components/Teams';
+import Guides from '../components/Guides';
+import type { Character } from '../types';
+import SearchBar from '../components/SearchBar';
 
 // Character data
 const characters: Character[] = [
   {
-    id: 'ul-mv',
+    id: 'ul-majin-vegeta',
     name: 'Ultra Majin Vegeta',
     element: 'Yellow',
     tier: 'Z',
     imageSrc: '/ul-majin.webp',
     attack: '2.8M',
     defense: '1.6M',
-    
   },
   {
-    id: 'lf-vb',
+    id: 'vegito-blue',
     name: 'LF Vegito Blue',
     element: 'Green',
     tier: 'Z',
     imageSrc: '/vegito.webp',
     attack: '2.4M',
     defense: '1.4M',
-    
   },
   {
-    id: 'lf-gotenks',
+    id: 'ssj3-gotenks',
     name: 'LF SSJ3 Gotenks',
     element: 'Red',
     tier: 'Z',
     imageSrc: '/ssj3-gotenks.webp',
     attack: '2.7M',
     defense: '1.7M',
-    
   }
 ];
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('characters');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  const FeaturedCard: React.FC<FeaturedCardProps> = ({ 
-    title, 
-    description, 
-    imageSrc, 
-    stats 
-  }) => (
-    <div className="relative group overflow-hidden rounded-lg">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
-      <img
-        src={imageSrc}
-        alt={title}
-        className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 group-hover:scale-105"
-      />
-      <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
-        <h3 className="text-lg sm:text-xl font-bold text-white mb-1">{title}</h3>
-        <p className="text-gray-200 text-xs sm:text-sm">{description}</p>
-        {stats && (
-          <div className="grid grid-cols-3 gap-2 mt-2">
-            {Object.entries(stats).map(([key, value]) => (
-              <div key={key} className="bg-black/40 rounded p-1 sm:p-2 backdrop-blur-sm">
-                <div className="flex items-center justify-center gap-1">
-                  {key === 'attack' && <Sword className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />}
-                  {key === 'defense' && <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />}
-                  <span className="text-white text-xs sm:text-sm">{value}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-900 via-black-900 to-gray-900">
@@ -130,36 +78,46 @@ export default function Home() {
         {/* Collapsible Search Bar for Mobile */}
         <div className="relative mb-8 sm:mb-12">
           <div className="sm:hidden mb-4 flex justify-end">
-            <button
+            {/* <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="p-2 bg-white/10 rounded-full"
             >
               <Search className="h-5 w-5 text-gray-400" />
-            </button>
+            </button> */}
+            <SearchBar/>
           </div>
-          <input
+          {/* <input
             type="text"
             placeholder="Search characters, teams, or guides..."
             className={`w-full p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl bg-white/10 backdrop-blur-md text-white placeholder-gray-400 border border-white/20 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition-all ${
               isSearchOpen ? 'block' : 'hidden sm:block'
             }`}
-          />
-          <Search className="absolute left-3 sm:left-4 top-3 sm:top-4 h-5 w-5 text-gray-400" />
+          /> */}
+          <SearchBar/>
+          
         </div>
 
         {/* Featured Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
           <FeaturedCard
+            type="character"
+            characterId="ssj2-goku"
             imageSrc="/ssj3.webp"
             title="SSJ2 Goku"
             description="Latest character release"
+            stats={{
+              attack: "2.66M",
+              defense: "1.73M"
+            }}
           />
           <FeaturedCard
+            type="team"
             imageSrc="/vegito.webp"
             title="Top Meta Teams"
             description="Current PvP favorites"
           />
           <FeaturedCard
+            type="guide"
             imageSrc="/pvp.png"
             title="PvP Guide"
             description="Master the basics"
@@ -207,43 +165,9 @@ export default function Home() {
           </div>
 
           {/* Tab Content */}
-          {activeTab === 'characters' && (
-  <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-    {characters.map((character) => (
-      <div 
-        key={character.id} 
-        className="bg-white/10 backdrop-blur-md border-0 text-white p-3 sm:p-4 rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
-      >
-        <div className="mb-2">
-          <h3 className="text-base sm:text-lg font-semibold">{character.name}</h3>
-          <p className="text-gray-300 text-xs sm:text-sm">
-            Tier {character.tier} • Element: {character.element}
-          </p>
-        </div>
-        <div className="flex gap-3 sm:gap-4">
-          <img
-            src={character.imageSrc}
-            alt={character.name}
-            className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover"
-          />
-          <div className="flex flex-col justify-center">
-            <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
-              <div className="flex items-center gap-1">
-                <Sword className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
-                <span>{character.attack}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
-                <span>{character.defense}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-)}
+          {activeTab === 'characters' && <CharacterList characters={characters} />}
           {activeTab === 'teams' && <Teams />}
+{activeTab === 'guides' && <Guides />}
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Sword, Shield, Star, X } from 'lucide-react';
-import type { Team, TeamMember, TeamDialogProps, TeamDetailsMapping } from '../types';
+import type { Team, TeamDialogProps, TeamDetailsMapping } from '../types';
 
 const TeamDialog = ({ team, isOpen, onClose }: TeamDialogProps) => {
   useEffect(() => {

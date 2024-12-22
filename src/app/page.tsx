@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, Sword, Shield, Trophy, Users, BookOpen } from 'lucide-react';
+import {  Trophy, Users, BookOpen } from 'lucide-react';
 import FeaturedCard from '../components/FeaturedCard';
 import CharacterList from '../components/CharacterList';
 import Teams from '../components/Teams';
@@ -42,7 +42,7 @@ const characters: Character[] = [
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('characters');
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  // const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-900 via-black-900 to-gray-900">

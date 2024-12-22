@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Shield, Swords, Activity, Heart, Zap, Star } from 'lucide-react';
+import { Shield, Swords, Activity, Heart, Zap } from 'lucide-react';
 import type { CharacterDetails } from '../types';
 
 const StatCard = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) => (

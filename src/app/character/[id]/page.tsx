@@ -5,46 +5,51 @@ import { Metadata } from 'next';
 
 
 function isValidCharacterId(id: string): id is CharacterId {
-  return id in ALL_CHARACTERS;
-}
-
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  // Handle params as a whole object
-  const params = await Promise.resolve(props.params);
+    return id in ALL_CHARACTERS;
+  }
   
-  if (!isValidCharacterId(params.id)) {
+  // Define params interface
+  type PageProps = {
+    params: { id: string } | Promise<{ id: string }>;
+    searchParams: { [key: string]: string | string[] | undefined };
+  };
+  
+  // Metadata generation
+  export async function generateMetadata({ 
+    params 
+  }: PageProps): Promise<Metadata> {
+    const resolvedParams = await params;
+    
+    if (!isValidCharacterId(resolvedParams.id)) {
+      return {
+        title: 'Character Not Found - DB Legends Codex'
+      };
+    }
+  
+    const character = ALL_CHARACTERS[resolvedParams.id];
     return {
-      title: 'Character Not Found - DB Legends Codex'
+      title: `${character.name} - DB Legends Codex`,
+      description: character.title
     };
   }
-
-  const character = ALL_CHARACTERS[params.id];
-  return {
-    title: `${character.name} - DB Legends Codex`,
-    description: character.title
-  };
-}
-
-export default async function Page(props: Props) {
-  // Handle params as a whole object
-  const params = await Promise.resolve(props.params);
-
-  if (!isValidCharacterId(params.id)) {
-    notFound();
+  
+  // Page component
+  export default async function Page({ 
+    params 
+  }: PageProps) {
+    const resolvedParams = await params;
+    
+    if (!isValidCharacterId(resolvedParams.id)) {
+      notFound();
+    }
+  
+    const character = ALL_CHARACTERS[resolvedParams.id];
+    return <CharacterDetail character={character} />;
   }
-
-  const character = ALL_CHARACTERS[params.id];
-  return <CharacterDetail character={character} />;
-}
-
-// Generate static params
-export async function generateStaticParams() {
-  return Object.keys(ALL_CHARACTERS).map((id) => ({
-    id: id,
-  }));
-}
+  
+  // Static params generation for optimization
+  export function generateStaticParams() {
+    return Object.keys(ALL_CHARACTERS).map((id) => ({
+      id
+    }));
+  }

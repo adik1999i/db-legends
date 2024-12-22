@@ -12,15 +12,14 @@ function isValidCharacterId(id: string): id is CharacterId {
 }
 
 type PageProps = {
-  params: { id: string } | Promise<{ id: string }>;
+  params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-// @ts-ignore
 export async function generateMetadata({ 
   params 
 }: PageProps): Promise<Metadata> {
-  const resolvedParams = await params;
+  const resolvedParams = await (('then' in params) ? params : Promise.resolve(params));
   
   if (!isValidCharacterId(resolvedParams.id)) {
     return {
@@ -35,11 +34,10 @@ export async function generateMetadata({
   };
 }
 
-// @ts-ignore
 export default async function Page({ 
   params 
 }: PageProps) {
-  const resolvedParams = await params;
+  const resolvedParams = await (('then' in params) ? params : Promise.resolve(params));
   
   if (!isValidCharacterId(resolvedParams.id)) {
     notFound();

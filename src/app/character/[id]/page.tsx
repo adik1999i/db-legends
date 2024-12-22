@@ -12,10 +12,10 @@ function isValidCharacterId(id: string): id is CharacterId {
 }
 
 type PageProps = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
+    params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+  };
+  
 export async function generateMetadata({ 
   params 
 }: PageProps): Promise<Metadata> {

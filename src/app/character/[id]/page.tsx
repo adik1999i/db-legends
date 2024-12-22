@@ -164,6 +164,6 @@ const characterData: CharacterDetails = {
   };
   
 
-export default function CharacterPage({ params }: { params: { id: string } }) {
+export default function CharacterPage( ) {
   return <CharacterDetail character={characterData} />;
 }

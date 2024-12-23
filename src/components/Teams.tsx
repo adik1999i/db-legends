@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Sword, Shield, Star, X } from 'lucide-react';
+import { Sword, Shield, X } from 'lucide-react';
 import type { Team, TeamDialogProps, TeamDetailsMapping } from '../types';
 
 const TeamDialog = ({ team, isOpen, onClose }: TeamDialogProps) => {

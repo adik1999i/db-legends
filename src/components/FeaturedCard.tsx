@@ -1,23 +1,20 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Sword, Shield, Trophy, Users, BookOpen } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { FeaturedCardProps } from "../types"
+import Link from 'next/link';
+import type { FeaturedCardProps } from "../types";
 
-const FeaturedCard = ({ title, description, imageSrc, type, characterId, stats }: FeaturedCardProps) => {
-  const router = useRouter();
+const FeaturedCard = ({ title, description, imageSrc, type, stats }: FeaturedCardProps) => {
+  const [mounted, setMounted] = useState(false);
 
-  const handleClick = () => {
-    if (type === 'character' && characterId) {
-      router.push(`/character/${characterId}`);
-    }
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  return (
-    <div 
-      onClick={handleClick}
-      className="relative group overflow-hidden rounded-lg cursor-pointer"
-    >
+  // Wrapper component to handle the card content
+  const CardContent = () => (
+    <>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10" />
       <img
         src={imageSrc}
@@ -46,7 +43,34 @@ const FeaturedCard = ({ title, description, imageSrc, type, characterId, stats }
           </div>
         )}
       </div>
-    </div>
+    </>
+  );
+
+  if (!mounted) {
+    return (
+      <div className="relative group overflow-hidden rounded-lg bg-white/5">
+        <div className="w-full h-48 sm:h-56" />
+      </div>
+    );
+  }
+
+  // For character type, render without Link
+  if (type === 'character') {
+    return (
+      <div className="relative group overflow-hidden rounded-lg">
+        <CardContent />
+      </div>
+    );
+  }
+
+  // For team and guide types, wrap with Link
+  return (
+    <Link 
+      href={type === 'team' ? '/teams' : '/guides'} 
+      className="relative group overflow-hidden rounded-lg block cursor-pointer"
+    >
+      <CardContent />
+    </Link>
   );
 };
 

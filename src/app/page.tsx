@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import {  Trophy, Users, BookOpen } from 'lucide-react';
 import FeaturedCard from '../components/FeaturedCard';
 import CharacterList from '../components/CharacterList';
@@ -9,44 +9,131 @@ import Guides from '../components/Guides';
 import type { Character } from '../types';
 import SearchBar from '../components/SearchBar';
 
-// Character data
+// Top 10 Character data
+// Top 10 Character data
 const characters: Character[] = [
   {
     id: 'ul-majin-vegeta',
     name: 'Ultra Majin Vegeta',
-    element: 'Yellow',
+    element: 'YEL',
     tier: 'Z',
+    rank: 1,
     imageSrc: '/ul-majin.webp',
-    attack: '2.8M',
-    defense: '1.6M',
+    attack: '2.95M',
+    defense: '1.82M',
   },
   {
     id: 'vegito-blue',
     name: 'LF Vegito Blue',
-    element: 'Green',
+    element: 'GRN',
     tier: 'Z',
+    rank: 2,
     imageSrc: '/vegito.webp',
-    attack: '2.4M',
-    defense: '1.4M',
+    attack: '2.88M',
+    defense: '1.79M',
   },
   {
     id: 'ssj3-gotenks',
     name: 'LF SSJ3 Gotenks',
-    element: 'Red',
+    element: 'RED',
     tier: 'Z',
+    rank: 3,
     imageSrc: '/ssj3-gotenks.webp',
-    attack: '2.7M',
-    defense: '1.7M',
+    attack: '2.83M',
+    defense: '1.76M',
+  },
+  {
+    id: 'ssj2-goku',
+    name: 'LF SSJ2 Goku',
+    element: 'GRN',
+    tier: 'S',
+    rank: 4,
+    imageSrc: '/ssj3.webp',
+    attack: '2.79M',
+    defense: '1.75M',
+  },
+  {
+    id: 'daima-goku',
+    name: 'LF Daima Goku',
+    element: 'RED',
+    tier: 'S',
+    rank: 5,
+    imageSrc: '/daima.webp',
+    attack: '2.77M',
+    defense: '1.74M',
+  },
+  {
+    id: 'ultra-turles',
+    name: 'Ultra Turles',
+    element: 'BLU',
+    tier: 'S',
+    rank: 6,
+    imageSrc: '/ultra-turles.webp',
+    attack: '2.75M',
+    defense: '1.73M',
+  },
+  {
+    id: 'ultimate-gohan',
+    name: 'LF Ultimate Gohan',
+    element: 'PUR',
+    tier: 'S',
+    rank: 7,
+    imageSrc: '/ult-gohan1.webp',
+    attack: '2.73M',
+    defense: '1.72M',
+  },
+  {
+    id: 'treeku',
+    name: 'LF Spirit Saiyan Goku',
+    element: 'YEL',
+    tier: 'S',
+    rank: 8,
+    imageSrc: '/treeku1.webp',
+    attack: '2.71M',
+    defense: '1.71M',
+  },
+  {
+    id: 'omega-shenron',
+    name: 'LF Omega Shenron',
+    element: 'GRN',
+    tier: 'A',
+    rank: 9,
+    imageSrc: '/omega1.webp',
+    attack: '2.69M',
+    defense: '1.70M',
+  },
+  {
+    id: 'ultra-gogeta',
+    name: 'Ultra Super Gogeta',
+    element: 'PUR',
+    tier: 'A',
+    rank: 10,
+    imageSrc: '/ultra-gogeta.webp',
+    attack: '2.67M',
+    defense: '1.69M',
   }
 ];
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('characters');
-  // const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Simple loading state
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-red-900 via-black-900 to-gray-900">
+        <div className="h-72 sm:h-96 bg-black/50" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-900 via-black-900 to-gray-900">
-      {/* Mobile-friendly Hero Section */}
+      {/* Hero Section */}
       <div className="relative h-72 sm:h-96 overflow-hidden">
         <img
           src="/banner-new.jpg"
@@ -61,10 +148,16 @@ export default function Home() {
                 Your ultimate destination for teams, guides, and character analysis
               </p>
               <div className="mt-4 sm:mt-8 flex flex-col sm:flex-row gap-2 sm:gap-4">
-                <button className="bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base">
+                <button 
+                  onClick={() => setActiveTab('characters')}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base"
+                >
                   Browse Characters
                 </button>
-                <button className="bg-white/10 hover:bg-white/20 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold backdrop-blur-sm transition-colors text-sm sm:text-base">
+                <button 
+                  onClick={() => setActiveTab('guides')}
+                  className="bg-white/10 hover:bg-white/20 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold backdrop-blur-sm transition-colors text-sm sm:text-base"
+                >
                   View Guides
                 </button>
               </div>
@@ -75,26 +168,9 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        {/* Collapsible Search Bar for Mobile */}
+        {/* Search Bar */}
         <div className="relative mb-8 sm:mb-12">
-          <div className="sm:hidden mb-4 flex justify-end">
-            {/* <button
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="p-2 bg-white/10 rounded-full"
-            >
-              <Search className="h-5 w-5 text-gray-400" />
-            </button> */}
-            <SearchBar/>
-          </div>
-          {/* <input
-            type="text"
-            placeholder="Search characters, teams, or guides..."
-            className={`w-full p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl bg-white/10 backdrop-blur-md text-white placeholder-gray-400 border border-white/20 focus:border-red-500 focus:ring-2 focus:ring-red-500 transition-all ${
-              isSearchOpen ? 'block' : 'hidden sm:block'
-            }`}
-          /> */}
-          <SearchBar/>
-          
+          <SearchBar />
         </div>
 
         {/* Featured Content */}
@@ -124,50 +200,38 @@ export default function Home() {
           />
         </div>
 
-        {/* Scrollable Tabs for Mobile */}
+        {/* Tabs Section */}
         <div className="mt-8 sm:mt-12">
+          {/* Tab Buttons */}
           <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0 mb-4 sm:mb-0">
             <div className="flex space-x-2 bg-white/10 backdrop-blur-md p-1 rounded-lg w-fit min-w-full sm:min-w-0">
-              <button
-                onClick={() => setActiveTab('characters')}
-                className={`flex items-center px-3 sm:px-4 py-2 rounded-md transition-colors whitespace-nowrap text-sm sm:text-base ${
-                  activeTab === 'characters' 
-                    ? 'bg-red-600 text-white' 
-                    : 'text-white hover:bg-white/10'
-                }`}
-              >
-                <Trophy className="w-4 h-4 mr-2" />
-                Characters
-              </button>
-              <button
-                onClick={() => setActiveTab('teams')}
-                className={`flex items-center px-3 sm:px-4 py-2 rounded-md transition-colors whitespace-nowrap text-sm sm:text-base ${
-                  activeTab === 'teams' 
-                    ? 'bg-red-600 text-white' 
-                    : 'text-white hover:bg-white/10'
-                }`}
-              >
-                <Users className="w-4 h-4 mr-2" />
-                Teams
-              </button>
-              <button
-                onClick={() => setActiveTab('guides')}
-                className={`flex items-center px-3 sm:px-4 py-2 rounded-md transition-colors whitespace-nowrap text-sm sm:text-base ${
-                  activeTab === 'guides' 
-                    ? 'bg-red-600 text-white' 
-                    : 'text-white hover:bg-white/10'
-                }`}
-              >
-                <BookOpen className="w-4 h-4 mr-2" />
-                Guides
-              </button>
+              {[
+                { id: 'characters', icon: Trophy, label: 'Characters' },
+                { id: 'teams', icon: Users, label: 'Teams' },
+                { id: 'guides', icon: BookOpen, label: 'Guides' }
+              ].map(({ id, icon: Icon, label }) => (
+                <button
+                  key={id}
+                  onClick={() => setActiveTab(id)}
+                  className={`flex items-center px-3 sm:px-4 py-2 rounded-md transition-colors whitespace-nowrap text-sm sm:text-base ${
+                    activeTab === id 
+                      ? 'bg-red-600 text-white' 
+                      : 'text-white hover:bg-white/10'
+                  }`}
+                >
+                  <Icon className="w-4 h-4 mr-2" />
+                  {label}
+                </button>
+              ))}
             </div>
           </div>
 
           {/* Tab Content */}
-          {activeTab === 'characters' && <CharacterList characters={characters} />}
-          {activeTab === 'teams' && <Teams />}
-{activeTab === 'guides' && <Guides />}
+          <div className="mt-6">
+            {activeTab === 'characters' && <CharacterList characters={characters} />}
+            {activeTab === 'teams' && <Teams />}
+            {activeTab === 'guides' && <Guides />}
+          </div>
         </div>
       </div>
     </div>

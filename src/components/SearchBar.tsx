@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Search, Users, BookOpen, Trophy, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { ALL_CHARACTERS } from '../data/characters';
+
 
 interface SearchResult {
   id: string;
@@ -17,11 +16,18 @@ export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
-  const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
+
+  // Handle mounting
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Close search when clicking outside
   useEffect(() => {
+    if (!mounted) return;
+
     function handleClickOutside(event: MouseEvent) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setIsOpen(false);
@@ -30,7 +36,7 @@ export default function SearchBar() {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [mounted]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -42,44 +48,33 @@ export default function SearchBar() {
     const searchResults: SearchResult[] = [];
     const lowerQuery = query.toLowerCase();
 
-    // Search characters
-    Object.entries(ALL_CHARACTERS).forEach(([id, character]) => {
-      if (
-        character.name.toLowerCase().includes(lowerQuery) ||
-        character.traits.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
-      ) {
-        searchResults.push({
-          id,
-          title: character.name,
-          type: 'character',
-          image: character.image,
-          description: character.traits.type
-        });
-      }
-    });
-
-    // Mock teams and guides search (you can replace with actual data)
+    // Mock teams search
     const teams = [
       { id: 'fusion-warriors', title: 'Fusion Warriors', description: 'Top-tier fusion team' },
       { id: 'saiyan', title: 'Saiyan', description: 'Classic Saiyan team' }
     ];
 
+    teams.forEach(team => {
+      if (team.title.toLowerCase().includes(lowerQuery)) {
+        searchResults.push({
+          ...team,
+          type: 'team' as const
+        });
+      }
+    });
+
+    // Mock guides search
     const guides = [
       { id: 'pvp-guide', title: 'PvP Guide', description: 'Master PvP mechanics' },
       { id: 'beginners-guide', title: 'Beginner\'s Guide', description: 'Start your journey' }
     ];
 
-    // Add matching teams
-    teams.forEach(team => {
-      if (team.title.toLowerCase().includes(lowerQuery)) {
-        searchResults.push({ ...team, type: 'team' as const });
-      }
-    });
-
-    // Add matching guides
     guides.forEach(guide => {
       if (guide.title.toLowerCase().includes(lowerQuery)) {
-        searchResults.push({ ...guide, type: 'guide' as const });
+        searchResults.push({
+          ...guide,
+          type: 'guide' as const
+        });
       }
     });
 
@@ -102,18 +97,20 @@ export default function SearchBar() {
   const handleResultClick = (result: SearchResult) => {
     setIsOpen(false);
     setSearchQuery('');
-    switch (result.type) {
-      case 'character':
-        router.push(`/character/${result.id}`);
-        break;
-      case 'team':
-        router.push(`/teams/${result.id}`);
-        break;
-      case 'guide':
-        router.push(`/guides/${result.id}`);
-        break;
+    const element = document.getElementById(result.id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Don't render anything until mounted
+  if (!mounted) {
+    return (
+      <div className="w-full p-3 sm:p-4 pl-10 sm:pl-12 rounded-xl bg-white/10 backdrop-blur-md">
+        <div className="h-5 w-5 text-gray-400"></div>
+      </div>
+    );
+  }
 
   return (
     <div ref={searchRef} className="relative">

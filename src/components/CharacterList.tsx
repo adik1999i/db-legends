@@ -1,41 +1,41 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Sword, Shield } from 'lucide-react';
+import { Sword, Shield, Trophy } from 'lucide-react';
 import type { Character } from '../types';
 
-const CharacterCard = ({ character }: { character: Character }) => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`/character/${character.id}`);
-  };
-
+const CharacterCard = ({ character, rank }: { character: Character; rank: number }) => {
   return (
-    <div 
-      onClick={handleClick}
-      className="bg-white/10 backdrop-blur-md border-0 text-white p-3 sm:p-4 rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
-    >
-      <div className="mb-2">
-        <h3 className="text-base sm:text-lg font-semibold">{character.name}</h3>
-        <p className="text-gray-300 text-xs sm:text-sm">
-          Tier {character.tier} • Element: {character.element}
-        </p>
+    <div className="bg-white/10 backdrop-blur-md border-0 text-white p-4 rounded-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+      <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-2">
+          <Trophy className="w-5 h-5 text-yellow-400" />
+          <span className="text-lg font-bold">#{rank}</span>
+        </div>
+        <div className="px-3 py-1 rounded-full bg-red-600/80 text-sm">
+          {character.tier} Tier
+        </div>
       </div>
-      <div className="flex gap-3 sm:gap-4">
+      
+      <div className="flex gap-4">
         <img
           src={character.imageSrc}
           alt={character.name}
-          className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover"
+          className="w-24 h-24 rounded-lg object-cover"
         />
-        <div className="flex flex-col justify-center">
-          <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+        <div className="flex flex-col justify-between py-1">
+          <div>
+            <h3 className="text-lg font-semibold mb-1">{character.name}</h3>
+            <p className="text-sm text-gray-300">
+              Element: {character.element}
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="flex items-center gap-1">
-              <Sword className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
+              <Sword className="w-4 h-4 text-red-400" />
               <span>{character.attack}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+              <Shield className="w-4 h-4 text-blue-400" />
               <span>{character.defense}</span>
             </div>
           </div>
@@ -47,9 +47,13 @@ const CharacterCard = ({ character }: { character: Character }) => {
 
 const CharacterList = ({ characters }: { characters: Character[] }) => {
   return (
-    <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+    <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
       {characters.map((character) => (
-        <CharacterCard key={character.id} character={character} />
+        <CharacterCard 
+          key={character.id} 
+          character={character} 
+          rank={character.rank}
+        />
       ))}
     </div>
   );

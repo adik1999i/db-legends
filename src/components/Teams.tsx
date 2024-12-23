@@ -121,29 +121,47 @@ const TeamDialog = ({ team, isOpen, onClose }: TeamDialogProps) => {
 
 const Teams = () => {
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+  const [mounted, setMounted] = useState(false);
   
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const teams: Team[] = [
     {
       name: 'Fusion Warriors',
       description: 'Top-tier fusion characters',
       image: '/fusion-team.jpg',
-      members: [
-        { name: 'LF Vegito Blue', attack: '1.5M', defense: '1.2M', imageSrc: '/vegito.webp' },
-        { name: 'LF SSJ3 Gotenks', attack: '1.7M', defense: '1.4M', imageSrc: '/ssj3-gotenks.webp' },
-        { name: 'Leader Slot Ultra Majin Vegeta', attack: '1.7M', defense: '1.4M', imageSrc: '/ul-majin.webp' },
+      core: [
+        { name: 'LF Vegito Blue', imageSrc: '/vegito.webp' },
+        { name: 'LF SSJ3 Gotenks', imageSrc: '/ssj3-gotenks.webp' },
+        { name: 'Ultra Majin Vegeta', imageSrc: '/ul-majin.webp' },
       ],
+      bench: [
+        { name: 'SSJ Gogeta', imageSrc: '/ssj-gogeta.webp' },
+        { name: 'LF SSJ4 Gogeta', imageSrc: '/ssj4-gogeta.webp' },
+        { name: 'SSJ3 Gotenks', imageSrc: '/ssj3-gotenks-sp.webp' },
+
+      ]
     },
     {
       name: 'Saiyan',
       description: 'Classic Saiyan',
       image: '/saiyan-team.jpg',
-      members: [
-        { name: 'Ultra Majin Vegeta', attack: '1.8M', defense: '1.3M', imageSrc: '/ul-majin.webp' },
-        { name: 'LF Vegito Blue', attack: '1.6M', defense: '1.1M', imageSrc: '/vegito.webp' },
-        { name: 'LF SSJ2 Goku', attack: '1.6M', defense: '1.1M', imageSrc: '/ssj3.webp' },
+      core: [
+        { name: 'Ultra Majin Vegeta', imageSrc: '/ul-majin.webp' },
+        { name: 'LF Vegito Blue', imageSrc: '/vegito.webp' },
+        { name: 'LF SSJ2 Goku', imageSrc: '/ssj3.webp' },
       ],
+      bench: [
+        { name: 'LF SSJ3 Goku', imageSrc: '/ssj-goku.webp' },
+        { name: 'LF Bardock', imageSrc: '/lf-bardock.webp' },
+        { name: 'Pui Pui', imageSrc: '/pui-pui.webp' },
+      ]
     },
   ];
+
+  if (!mounted) return null;
 
   return (
     <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -151,42 +169,47 @@ const Teams = () => {
         <div
           key={index}
           onClick={() => setSelectedTeam(team)}
-          className="bg-white/10 backdrop-blur-md border-0 text-white p-3 sm:p-4 rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
+          className="bg-white/10 backdrop-blur-md border-0 text-white p-4 rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer"
         >
-          <div className="mb-2">
-            <h3 className="text-base sm:text-lg font-semibold">{team.name}</h3>
-            <p className="text-gray-300 text-xs sm:text-sm">{team.description}</p>
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold mb-1">{team.name}</h3>
+            <p className="text-gray-300 text-sm">{team.description}</p>
           </div>
-          <div className="space-y-3 sm:space-y-4">
-            {team.members.map((member, idx) => (
-              <div key={idx} className="flex gap-3 sm:gap-4">
-                <img
-                  src={member.imageSrc}
-                  alt={member.name}
-                  className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover"
-                />
-                <div className="flex flex-col justify-between">
-                  <div className="flex gap-1 mb-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star
-                        key={star}
-                        className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-yellow-400"
-                      />
-                    ))}
+
+          <div className="flex gap-4">
+            {/* Core Team */}
+            <div className="flex-1">
+              <h4 className="text-sm font-medium text-gray-400 mb-2">Core</h4>
+              <div className="space-y-2">
+                {team.core.map((member, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <img
+                      src={member.imageSrc}
+                      alt={member.name}
+                      className="w-10 h-10 rounded-lg object-cover"
+                    />
+                    <span className="text-sm truncate">{member.name}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 text-xs sm:text-sm">
-                    <div className="flex items-center gap-1">
-                      <Sword className="w-3 h-3 sm:w-4 sm:h-4 text-red-400" />
-                      <span>{member.attack}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
-                      <span>{member.defense}</span>
-                    </div>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Bench */}
+            <div className="flex-1">
+              <h4 className="text-sm font-medium text-gray-400 mb-2">Bench</h4>
+              <div className="space-y-2">
+                {team.bench.map((member, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <img
+                      src={member.imageSrc}
+                      alt={member.name}
+                      className="w-10 h-10 rounded-lg object-cover"
+                    />
+                    <span className="text-sm truncate">{member.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       ))}
@@ -199,5 +222,4 @@ const Teams = () => {
     </div>
   );
 };
-
 export default Teams;

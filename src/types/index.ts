@@ -1,23 +1,12 @@
 // Base interfaces
-interface TeamMember {
-    name: string;
-    attack: string;
-    defense: string;
-    imageSrc: string;
-  }
-  
-  interface Team {
-    name: string;
-    description: string;
-    image: string;
-    members: TeamMember[];
-  }
+
   
   interface Character {
     id: string;
     name: string;
     element: string;
     tier: string;
+    rank: number;
     imageSrc: string;
     attack: string;
     defense: string;
@@ -99,7 +88,7 @@ interface TeamMember {
   
   
   // Featured Card Props
-  interface FeaturedCardProps {
+   interface FeaturedCardProps {
     title: string;
     description: string;
     imageSrc: string;
@@ -113,6 +102,19 @@ interface TeamMember {
   }
   
   // Team Dialog Props and Details
+  interface TeamMember {
+    name: string;
+    imageSrc: string;
+  }
+  
+  interface Team {
+    name: string;
+    description: string;
+    image: string;
+    core: TeamMember[];
+    bench: TeamMember[];
+  }
+  
   interface TeamDialogProps {
     team: Team | null;
     isOpen: boolean;

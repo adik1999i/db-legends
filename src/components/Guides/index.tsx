@@ -1,25 +1,26 @@
 'use client';
 
-import { BookOpen, Trophy, Sword, Gem } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Swords, BookOpen, Target, Trophy, Gem } from 'lucide-react';
+import TopGuide from './TopGuide';
 
 interface GuideCard {
   id: string;
   title: string;
   description: string;
   image: string;
-  icon: 'book' | 'trophy' | 'sword' | 'gem';
+  icon: 'book' | 'trophy' | 'sword' | 'gem' | 'target';
   category: string;
 }
 
 const guides: GuideCard[] = [
   {
-    id: 'beginners-guide',
-    title: "T.O.P Guide",
-    description: "Everything you need to know to about TOP. From basic mechanics to team building fundamentals.",
+    id: 'top-guide',
+    title: "Tournament of Power Guide",
+    description: "Seasonal TOP guides with optimal routes and team compositions. Learn the best strategies for maximum points.",
     image: "/top-guide.jpg",
-    icon: 'book',
-    category: 'Top Guide'
+    icon: 'trophy',
+    category: 'TOP Guide'
   },
   {
     id: 'pvp-guide',
@@ -31,27 +32,27 @@ const guides: GuideCard[] = [
   },
   {
     id: 'chrono-guide',
-    title: "Chrono Crystal Guide",
-    description: "Learn how to efficiently farm Chrono Crystals and manage your resources for summoning.",
+    title: "Chrono Guides",
+    description: "Complete walkthrough for current events and missions. Get the most out of limited-time content.",
     image: "/chrono.jpg",
-    icon: 'gem',
-    category: 'Resource'
+    icon: 'target',
+    category: 'Chrono'
   }
 ];
 
-const GuideCard = ({ guide }: { guide: GuideCard }) => {
-  const router = useRouter();
-
+const GuideCard = ({ guide, onClick }: { guide: GuideCard; onClick: () => void }) => {
   const getIcon = (iconType: string) => {
     switch (iconType) {
       case 'book':
         return <BookOpen className="w-5 h-5 text-yellow-400" />;
       case 'trophy':
-        return <Trophy className="w-5 h-5 text-purple-400" />;
+        return <Trophy className="w-5 h-5 text-yellow-400" />;
       case 'sword':
-        return <Sword className="w-5 h-5 text-red-400" />;
+        return <Swords className="w-5 h-5 text-red-400" />;
       case 'gem':
         return <Gem className="w-5 h-5 text-blue-400" />;
+      case 'target':
+        return <Target className="w-5 h-5 text-green-400" />;
       default:
         return <BookOpen className="w-5 h-5 text-yellow-400" />;
     }
@@ -59,7 +60,7 @@ const GuideCard = ({ guide }: { guide: GuideCard }) => {
 
   return (
     <div 
-      onClick={() => router.push(`/guides/${guide.id}`)}
+      onClick={onClick}
       className="group bg-white/10 backdrop-blur-md rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="relative h-48">
@@ -95,10 +96,30 @@ const GuideCard = ({ guide }: { guide: GuideCard }) => {
 };
 
 const Guides = () => {
+  const [selectedGuide, setSelectedGuide] = useState<string | null>(null);
+
+  if (selectedGuide === 'top-guide') {
+    return (
+      <div>
+        <button 
+          onClick={() => setSelectedGuide(null)}
+          className="mb-6 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors"
+        >
+          ← Back to Guides
+        </button>
+        <TopGuide />
+      </div>
+    );
+  }
+
   return (
     <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
       {guides.map((guide) => (
-        <GuideCard key={guide.id} guide={guide} />
+        <GuideCard 
+          key={guide.id} 
+          guide={guide} 
+          onClick={() => setSelectedGuide(guide.id)}
+        />
       ))}
     </div>
   );

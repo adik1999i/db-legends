@@ -2,12 +2,14 @@
 
 import { useState , useEffect} from 'react';
 import {  Trophy, Users, BookOpen } from 'lucide-react';
+import { Youtube } from 'lucide-react';
 import FeaturedCard from '../components/FeaturedCard';
 import CharacterList from '../components/CharacterList';
 import Teams from '../components/Teams';
 import Guides from '../components/Guides';
 import type { Character } from '../types';
 import SearchBar from '../components/SearchBar';
+import Creators from '../components/ContentCreators';
 
 // Top 10 Character data
 // Top 10 Character data
@@ -208,7 +210,8 @@ export default function Home() {
               {[
                 { id: 'characters', icon: Trophy, label: 'Characters' },
                 { id: 'teams', icon: Users, label: 'Teams' },
-                { id: 'guides', icon: BookOpen, label: 'Guides' }
+                { id: 'guides', icon: BookOpen, label: 'Guides' },
+                { id: 'creators', icon: Youtube, label: 'Creators' },
               ].map(({ id, icon: Icon, label }) => (
                 <button
                   key={id}
@@ -231,6 +234,7 @@ export default function Home() {
             {activeTab === 'characters' && <CharacterList characters={characters} />}
             {activeTab === 'teams' && <Teams />}
             {activeTab === 'guides' && <Guides />}
+            {activeTab === 'creators' && <Creators />}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 'use client';
-
+/* eslint-disable @typescript-eslint/prefer-as-const */
 import { useState } from 'react';
 import { Swords, BookOpen, Target, Trophy, Gem } from 'lucide-react';
 import TopGuide from './TopGuide';

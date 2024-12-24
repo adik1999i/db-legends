@@ -11,7 +11,24 @@
     attack: string;
     defense: string;
   }
+
+  // types.ts
+  export interface GuideCard {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    icon: 'book' | 'trophy' | 'sword' | 'gem' | 'target';
+    category: string;
+  }
   
+  export interface VideoGuide {
+    title: string;
+    description: string;
+    videoId: string;
+    category: string;
+    date: string;
+  }
   // Character Details interfaces
   interface CharacterStats {
     hp: number;

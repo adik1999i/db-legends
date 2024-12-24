@@ -211,7 +211,6 @@ export default function Home() {
                 { id: 'characters', icon: Trophy, label: 'Characters' },
                 { id: 'teams', icon: Users, label: 'Teams' },
                 { id: 'guides', icon: BookOpen, label: 'Guides' },
-                { id: 'creators', icon: Youtube, label: 'Creators' },
               ].map(({ id, icon: Icon, label }) => (
                 <button
                   key={id}
@@ -234,7 +233,7 @@ export default function Home() {
             {activeTab === 'characters' && <CharacterList characters={characters} />}
             {activeTab === 'teams' && <Teams />}
             {activeTab === 'guides' && <Guides />}
-            {activeTab === 'creators' && <Creators />}
+            {/* {activeTab === 'creators' && <Creators />} */}
           </div>
         </div>
       </div>
